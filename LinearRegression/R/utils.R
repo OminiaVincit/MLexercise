@@ -22,19 +22,6 @@ ComputeCost <- function(X, y, theta) {
   # ===============================================================
 }
 
-ComputeCostArray <- function(X, y, theta_vals0, theta_vals1) {
-  # Return cost array
-  # Initialize some useful values
-  vals_len = length(theta_vals0) # number of training examples
-  J_vals <- c(1:vals_len)*0
-  
-  for ( i in 1:vals_len ) {
-    theta_val <- c(theta_vals0[i], theta_vals1[i])
-    J_vals[i] <- ComputeCost(X, y, theta_val)
-  }
-  return(J_vals)
-}
-
 GradientDescent <- function(X, y, theta, alpha, num_iters) {
   # Performs gradient descent to learn theta
   #   theta = GradientDescent(X, y, theta, alpha, num_iters) updates theta by 
@@ -50,7 +37,7 @@ GradientDescent <- function(X, y, theta, alpha, num_iters) {
   # Initialize some useful values
   m = length(y) # number of training examples
   n = length(theta) # number of variables theta
-  J_history = c(1:num_iters) * 0
+  J_history <- rep(0, num_iters)
   for (iter in 1:num_iters) {
     
 #     tha <- t(theta)
@@ -80,8 +67,8 @@ FeatureNormalize <- function(X) {
   # Return normalized data and mean, std
   
   num_ft <- length(X) # Number of features
-  mus <- c(1:num_ft)*0
-  sigmas <- c(1:num_ft)*0
+  mus <- rep(0, num_ft)
+  sigmas <- rep(0, num_ft)
   Xn <- X
   for (i in 1:num_ft) {
     mus[i] <- mean(X[,i])

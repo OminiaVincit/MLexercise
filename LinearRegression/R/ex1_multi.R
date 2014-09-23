@@ -40,7 +40,7 @@ sigmas <- nm_rs$sigmas
 
 # Add intercept term (column 1) to X
 size <- m*(n+1)
-mat <- matrix(c(1:size)*0+1, nrow=m, ncol=n+1)
+mat <- matrix(rep(1,size), nrow=m, ncol=n+1)
 for (i in 1:n) {
   mat[,i+1] <- X[,i]
 }
@@ -83,7 +83,7 @@ X <- mat
   # Plot multi figures
   old.par <- par(mfrow=c(2,2))
   for (i in 1:length(alpha)) {
-    th <- c(1:(n+1))*0
+    th <- rep(0, n+1)
     rs <- GradientDescent(X, y, th, alpha[i], num_iters)
     thetas[[i]] <- result$theta
     J_his[[i]] <- rs$costs

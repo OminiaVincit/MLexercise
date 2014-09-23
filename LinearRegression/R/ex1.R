@@ -38,7 +38,7 @@ readline('Program paused. Press enter to continue.\n');
 
 ## ==================== Part 3: Gradient descent ====================
 print('Running Gradient Descent ...')
-X <- matrix(c( c(1:m)*0 + 1, xData), nrow=m,ncol=2) # Add a column of ones to x
+X <- matrix(c( rep(1,m), xData), nrow=m,ncol=2) # Add a column of ones to x
 
 # Some gradient descent setting
 iterations <- 2000
@@ -81,8 +81,14 @@ readline('Program paused. Press enter to continue.\n')
 gridlen <- 100
 theta0_vals <- seq(-10,10,20/gridlen)  # Set grid for x dimension
 theta1_vals <- seq(-1, 4, 5/gridlen) # Set grid for y dimension
-
-J_vals <- outer(theta0_vals, theta1_vals, FUN=function(xx, yy) { ComputeCostArray(X, yData, xx, yy) })
+len0 <- length(theta0_vals)
+len1 <- length(theta1_vals)
+J_vals <- diag(0, len0, len1)
+for (i in 1:len0){
+  for (j in 1:len1){
+    J_vals[i,j] <- ComputeCost(X, yData, c(theta0_vals[i], theta1_vals[j]))
+  }
+}
 contour(theta0_vals, theta1_vals, log(J_vals), col = "blue" , lwd=2, main="Contour plot", xlab="theta0", ylab="theta1")
 points(theta[1], theta[2], type="p", col="red", pch=21 )
 
