@@ -1,0 +1,57 @@
+## Machine Learning Online Class - Exercise 3 | Part 1: One-vs-all
+
+# Instructions
+#  ------------
+  # 
+#  This file contains code that helps you get started on the
+#  linear exercise. 
+
+## Initialization
+library("R.matlab")
+library("pracma")
+source("ex3_utils.R")
+## Setup the parameters you will use for this part of the exercise
+input_layer_size  <- 400  # 20x20 Input Images of Digits
+num_labels <- 10          # 10 labels, from 1 to 10   
+# (note that we have mapped "0" to label 10)
+
+## =========== Part 1: Loading and Visualizing Data =============
+  #  We start the exercise by first loading and visualizing the dataset. 
+#  You will be working with a dataset that contains handwritten digits.
+#
+
+# Load Training Data
+print('Loading and Visualizing Data ...')
+pathname <- file.path("../Data", "ex3data1.mat")
+data <- readMat(pathname) # training data stored in arrays X, y
+X <- data$X
+y <- data$y
+m <- length(X[,1])
+n <- length(X[1,])
+
+# Randomly select 100 data points to display
+rand_indices <- randperm(m,100)
+sel <- X[rand_indices, ]
+DisplayData(sel)
+readline('Program paused. Press enter to continue.')
+
+## ============ Part 2: Vectorize Logistic Regression ============
+  #  In this part of the exercise, you will reuse your logistic regression
+#  code from the last exercise. You task here is to make sure that your
+#  regularized logistic regression implementation is vectorized. After
+#  that, you will implement one-vs-all classification for the handwritten
+#  digit dataset.
+#
+
+print('Training One-vs-All Logistic Regression...')
+lambda <- 0.1
+all_thetas <- OneVsAll(X, y, num_labels, lambda)
+readline('Program paused. Press enter to continue.')
+
+## ================ Part 3: Predict for One-Vs-All ================
+  #  After ...
+pred <- PredictOneVsAll(all_thetas, X)
+ps <- mean(pred == y) * 100
+print(paste("Train Accuracy", ps, "(%)"))
+## Result: "Train Accuracy 91.84 (%)"
+readline('Program paused. Press enter to continue.')
